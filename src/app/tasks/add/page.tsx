@@ -5,8 +5,8 @@ import { AddTaskForm } from '../../../components/AddTaskForm/AddTaskForm';
 export default function AddTaskPage() {
 	const cookiesData = cookies();
 
-	// if user is already logged, redirect to dashboard
-	if (cookiesData.get('task_app_token')) {
+	// if user is not logged in, redirect to dashboard
+	if (!cookiesData.get('task_app_token')) {
 		redirect('../');
 	}
 

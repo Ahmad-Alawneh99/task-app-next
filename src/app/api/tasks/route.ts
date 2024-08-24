@@ -7,8 +7,8 @@ export async function POST(request: NextRequest) {
 	try {
 		const data: Partial<TaskData> = await request.json();
 
-		if (!data.title) {
-			return Response.json({ /* TODO */ });
+		if (!data.title || !data.dueDate || !data.status) {
+			return Response.json({ success: false, code: 400, message: 'Title, status and due date are required' }, { status: 400 });
 		}
 
 		const res = await fetch('http://localhost:3030/tasks', {
@@ -16,15 +16,20 @@ export async function POST(request: NextRequest) {
 			body: JSON.stringify({
 				title: data.title,
 				description: data.description,
-				completed: data.completed,
+				status: data.status,
+				dueDate: data.dueDate,
 			}),
+			headers: {
+				Cookie: request.headers.get('Cookie') || '',
+				'Content-Type': 'application/json',
+			},
 		});
 
 		const resAsJson = await res.json();
 
-		return Response.json(resAsJson);
+		return Response.json(resAsJson, { status: resAsJson.code || 200 });
 	} catch (error: any) {
-		return Response.json({ success: false, code: 500, message: error.message || 'Unexpected error' });
+		return Response.json({ success: false, code: 500, message: error.message || 'Unexpected error' }, { status: 500 });
 	}
 }
 

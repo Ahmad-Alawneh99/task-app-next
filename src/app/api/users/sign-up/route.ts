@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
 
 		const resAsJson = await res.json();
 
-		return Response.json(resAsJson);
+		return Response.json(resAsJson, { status: resAsJson.code || 200 });
 	} catch (error: any) {
 		return Response.json({ success: false, code: 500, message: error.message || 'Unexpected error' }, { status: 500 });
 	}

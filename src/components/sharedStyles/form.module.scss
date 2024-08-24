@@ -1,88 +1,95 @@
 .formContainer {
-    align-items: center;
-    border-radius: 6px;
-    box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.75);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin: 0 auto;
-    max-width: 600px;
-    padding: 16px;
+	align-items: center;
+	border-radius: 6px;
+	box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.75);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin: 0 auto;
+	max-width: 600px;
+	padding: 16px;
 
-    .formTitle {
-        font-size: 36px;
-        font-weight: bold;
-    }
+	.formTitle {
+		font-size: 36px;
+		font-weight: bold;
+	}
 
-    .simpleInput {
-        font-size: 16px;
-        height: 40px;
-        max-width: 320px;
-        outline: none;
-        padding-left: 10px;
-        width: 100%;
+	.simpleInput {
+		font-size: 16px;
+		height: 40px;
+		max-width: 320px;
+		outline: none;
+		padding-left: 10px;
+		width: 100%;
+		margin-bottom: 16px;
+	}
 
-        &:not(:last-of-type) {
-            margin-bottom: 16px;
-        }
-    }
+	.textareaInput {
+		height: 84px;
+		margin: 16px 0;
+		padding: 10px 0 0 10px;
+		max-width: 320px;
+		outline: none;
+		width: 100%;
+	}
 
-    .textareaInput {
-        margin-top: 16px;
-        height: 84px;
-        margin-bottom: 16px;
-    }
+	.formSubmitButton {
+		background-color: rgb(50, 115, 255);
+		border-radius: 8px;
+		border: none;
+		color: white;
+		font-size: 14px;
+		font-weight: bold;
+		height: 40px;
+		margin-bottom: 16px;
+		margin-top: 24px;
+		outline: none;
+		width: 280px;
 
-    .formSubmitButton {
-        background-color: rgb(50, 115, 255);
-        border-radius: 8px;
-        border: none;
-        color: white;
-        font-size: 14px;
-        font-weight: bold;
-        height: 40px;
-        margin-bottom: 16px;
-        margin-top: 24px;
-        outline: none;
-        width: 280px;
+		&:hover {
+			cursor: pointer;
+			background-color: rgb(21, 95, 255);
+		}
 
-        &:hover {
-            cursor: pointer;
-            background-color: rgb(21, 95, 255);
-        }
+		&:focus-within {
+			outline: 1px solid black;
+			outline-offset: 2px;
+		}
 
-        &:focus-within {
-            outline: 1px solid black;
-            outline-offset: 2px;
-        }
+		&:disabled {
+			pointer-events: none;
+			background-color: lightgray;
+			color: gray;
+		}
+	}
 
-        &:disabled {
-            pointer-events: none;
-            background-color: lightgray;
-            color: gray;
-        }
-    }
-
-    .formError {
-        color: red;
-        font-size: 14px;
-        font-weight: bold;
-        margin-top: 0;
-    }
+	.formError {
+		color: red;
+		font-size: 14px;
+		font-weight: bold;
+		margin-top: 0;
+	}
 }
 
 .cta {
-    text-align: center;
+	text-align: center;
+}
+
+.inputLabel {
+	width: 100%;
+	max-width: 320px;
 }
 
 @media (width <= 600px) {
-    .formContainer {
-        .simpleInput {
-            max-width: unset;
-        }
+	.formContainer {
+		.simpleInput,
+		.textareaInput,
+		.inputLabel {
+			max-width: unset;
+		}
 
-        .formSubmitButton {
-            width: 100%;
-        }
-    }
+		.formSubmitButton {
+			width: 100%;
+		}
+	}
 }

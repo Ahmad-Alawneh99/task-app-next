@@ -5,7 +5,7 @@ import { SignUpForm } from '../../components/SignUpForm/SignUpForm';
 export default function SignUpPage() {
 	const cookiesData = cookies();
 
-	// if user is already logged, redirect to dashboard
+	// if user is already logged in, redirect to dashboard
 	if (cookiesData.get('task_app_token')) {
 		redirect('../');
 	}

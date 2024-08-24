@@ -5,7 +5,7 @@ import { SignInForm } from '../../components/SignInForm/SignInForm';
 export default function SignInPage() {
 	const cookiesData = cookies();
 
-	// if user is already logged, redirect to dashboard
+	// if user is already logged in, redirect to dashboard
 	if (cookiesData.get('task_app_token')) {
 		redirect('../');
 	}

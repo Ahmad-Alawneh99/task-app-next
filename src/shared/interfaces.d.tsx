@@ -10,7 +10,7 @@ export interface TaskData {
 	_id: string;
 	owner: string;
 	title: string;
-	dueDate: any // @TODO: Typing for dates
+	dueDate: string;
 }
 
 export interface User {
