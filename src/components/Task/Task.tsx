@@ -1,16 +1,16 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useState } from 'react';
 import { TaskData, TaskStatus } from '../../shared/interfaces.d';
 import taskStyles from './Task.module.scss';
 
 interface TaskProps {
 	task: TaskData,
-	onTaskDelete: (taskId: string) => void;
+	onTaskDeleted: (taskId: string) => void;
 }
 
-const Task = ({ task, onTaskDelete }: TaskProps) => {
-	const statusRef = useRef<HTMLSelectElement>(null);
+const Task = ({ task, onTaskDeleted }: TaskProps) => {
+	const [status, setStatus] = useState(task.status);
 
-	const handleDeleteTask = useCallback(async () => {
+	const deleteTask = useCallback(async () => {
 		try {
 			const response = await fetch(`api/tasks/${task._id}`, {
 				method: 'DELETE',
@@ -20,49 +20,55 @@ const Task = ({ task, onTaskDelete }: TaskProps) => {
 			const data = await response.json();
 
 			if (data.success) {
-				onTaskDelete(task._id);
+				onTaskDeleted(task._id);
 			} else {
 				alert(`Failed to delete task: ${data.message}`);
 			}
 		} catch (error: any) {
 			alert(`Failed to delete task: ${error.message}`);
 		}
-	}, [task._id, onTaskDelete]);
+	}, [task._id, onTaskDeleted]);
 
-	const updateStatus = useCallback(async () => {
+	const updateTaskStatus = useCallback(async (value: TaskStatus) => {
 		try {
-			const response = await fetch('api/tasks', {
+			setStatus(value);
+			const response = await fetch(`api/tasks/${task._id}`, {
 				headers: { 'Content-type': 'application/json' },
 				method: 'PUT',
 				credentials: 'include',
-				body: JSON.stringify({ completed: completedRef.current?.checked, taskId: task.id }),
+				body: JSON.stringify({ status: value }),
 			});
 
 			const data = await response.json();
 
 			if (!data.success) {
-				alert(`Failed to update task: ${data.message}`);
+				setStatus(status); // restore old value on failure
 			}
 		} catch (error: any) {
-			alert(`Failed to update task: ${error.message}`);
+			setStatus(status); // restore old value failure
 		}
-	}, [task.id]);
+	}, [task._id, status]);
+
+	const todaysDate = new Date();
+	todaysDate.setHours(0, 0, 0);
+	// Display date in red color if due date is met and status is not complete
+	const isPastDue = todaysDate > new Date(task.dueDate) && (status !== TaskStatus.COMPLETED);
 
 	return (
 		<div className={taskStyles.taskContainer}>
 			<p className={taskStyles.taskTitle}>{task.title}</p>
 			<p className={taskStyles.text}>{task.description}</p>
-			<label className={taskStyles.inputLabel} htmlFor="status-select">Status</label>
-			<select id="status-select" className={taskStyles.simpleInput} title="status" ref={statusRef} defaultValue={task.status}>
+			<p className={`${taskStyles.dateText} ${isPastDue ? taskStyles.pastDue : ''}`}>Due date: {task.dueDate.split('T')[0]}</p>
+			<label className={taskStyles.selectTitle} htmlFor="status-select">Status</label>
+			<select id="status-select" className={taskStyles.selectDropdown} title="status" value={status} onChange={(e) => updateTaskStatus(e.target.value as TaskStatus)}>
 				<option value={TaskStatus.PENDING}>Pending</option>
 				<option value={TaskStatus.IN_PROGRESS}>In progress</option>
 				<option value={TaskStatus.COMPLETED}>Complete</option>
 			</select>
-			<p className={taskStyles.text}>Due date: ${task.dueDate}</p>
 			<button
 				type="button"
 				className={taskStyles.deleteButton}
-				onClick={handleDeleteTask}
+				onClick={deleteTask}
 			>Delete</button>
 		</div>
 	);

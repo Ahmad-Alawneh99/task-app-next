@@ -1,75 +1,79 @@
 .tasksNavbar {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
 
-    .tasksTitle {
-        font-size: 36px;
-        font-weight: bold;
-    }
+	.tasksTitle {
+		font-size: 36px;
+		font-weight: bold;
+	}
 
-    .addTaskButton {
-        background-color: rgb(50, 115, 255);
-        border-radius: 8px;
-        border: none;
-        color: white;
-        font-size: 14px;
-        font-weight: bold;
-        height: 40px;
-        outline: none;
-        padding: 0 16px;
-        margin-right: 8px;
+	.addTaskButton {
+		align-items: center;
+		background-color: rgb(50, 115, 255);
+		border-radius: 8px;
+		border: none;
+		color: white;
+		display: inline-flex;
+		font-size: 14px;
+		font-weight: bold;
+		height: 40px;
+		justify-content: center;
+		margin-right: 8px;
+		outline: none;
+		padding: 0 16px;
+		text-decoration: none;
 
-        &:hover {
-            cursor: pointer;
-            background-color: rgb(21, 95, 255);
-        }
+		&:hover {
+			cursor: pointer;
+			background-color: rgb(21, 95, 255);
+		}
 
-        &:focus-within {
-            outline: 1px solid black;
-            outline-offset: 2px;
-        }
-    }
+		&:focus-within {
+			outline: 1px solid black;
+			outline-offset: 2px;
+		}
+	}
 
-    .signOutButton {
-        background-color: rgb(250, 31, 31);
-        border-radius: 8px;
-        border: none;
-        color: white;
-        font-size: 14px;
-        font-weight: bold;
-        height: 40px;
-        outline: none;
-        padding: 0 16px;
+	.signOutButton {
+		background-color: rgb(250, 31, 31);
+		border-radius: 8px;
+		border: none;
+		color: white;
+		font-size: 14px;
+		font-weight: bold;
+		height: 40px;
+		outline: none;
+		padding: 0 16px;
 
-        &:hover {
-            cursor: pointer;
-            background-color: rgb(218, 17, 17);
-        }
+		&:hover {
+			cursor: pointer;
+			background-color: rgb(218, 17, 17);
+		}
 
-        &:focus-within {
-            outline: 1px solid black;
-            outline-offset: 2px;
-        }
-    }
+		&:focus-within {
+			outline: 1px solid black;
+			outline-offset: 2px;
+		}
+	}
 }
 
 .taskList {
-    align-items: center;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    justify-content: center;
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16px;
+	justify-content: center;
 }
 
 .noTasks {
-    text-align: center;
+	text-align: center;
 }
 
 @media (width <= 400px) {
-    .tasksNavbar {
-        .tasksTitle {
-            font-size: 24px;
-        }
-    }
+	.tasksNavbar {
+		.tasksTitle {
+			font-size: 24px;
+		}
+	}
 }

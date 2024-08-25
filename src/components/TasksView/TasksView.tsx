@@ -1,44 +1,48 @@
+'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import Task from '../Task/Task';
 import { TaskData, User } from '../../shared/interfaces.d';
-import { getAuthCookie } from '../../shared/utils';
+import tasksViewStyles from './tasksPage.module.scss';
 
-const TasksView = ({ tasks, user }) => {
+interface TasksViewProps {
+	initialTasks: TaskData[],
+	user: User,
+}
+
+const TasksView = ({ initialTasks, user }: TasksViewProps) => {
+	const [tasks, setTasks] = useState<TaskData[]>(initialTasks);
 	const router = useRouter();
-
-	const navigateToAddTaskPage = () => {
-		router.push('/add-task');
-	};
 
 	const signOut = () => {
 		document.cookie = 'task_app_token=';
 		router.push('/sign-in');
 	};
 
-	const onTaskDelete = (taskId: string) => {
-		setTasks((existingTasks) => existingTasks.filter((task) => task.id !== taskId));
+	const onTaskDeleted = (taskId: string) => {
+		setTasks((existingTasks) => existingTasks.filter((task) => task._id !== taskId));
 	};
 
 	return (
-		<div className="tasks-container">
-			<div className="user-info">
+		<div className={tasksViewStyles.tasksContainer}>
+			<div className={tasksViewStyles.userInfo}>
 				<p>Welcome back, {user.name}</p>
 			</div>
-			<div className="tasks-navbar">
-				<p className="tasks-title">Your tasks</p>
-				<div className="control-buttons">
-					<button type="button" className="add-task-button" onClick={navigateToAddTaskPage}>Add task</button>
-					<button type="button" className="sign-out-button" onClick={signOut}>Sign out</button>
+			<div className={tasksViewStyles.tasksNavbar}>
+				<p className={tasksViewStyles.tasksTitle}>Your tasks</p>
+				<div className={tasksViewStyles.controlButtons}>
+					<Link className={tasksViewStyles.addTaskButton} href="/tasks/add">Add task</Link>
+					<button type="button" className={tasksViewStyles.signOutButton} onClick={signOut}>Sign out</button>
 				</div>
 			</div>
 			{
-				!!tasks.length &&
-					<div className="task-list">
-						{tasks.map((task) => <Task task={task} key={task.id} onTaskDelete={onTaskDelete}/>)}
+				tasks.length ?
+					<div className={tasksViewStyles.taskList}>
+						{tasks.map((task) => <Task task={task} key={task._id} onTaskDeleted={onTaskDeleted}/>)}
 					</div>
+					: <p className={tasksViewStyles.noTasks}>You don&apos;t have any tasks, start by adding one</p>
 			}
-			{ !tasks.length && <p className="no-tasks">You don&apos;t have any tasks, start by adding one</p> }
 		</div>
 	);
 };

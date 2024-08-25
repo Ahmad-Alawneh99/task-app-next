@@ -48,7 +48,8 @@ export const AddTaskForm = () => {
 			const responseData = await response.json();
 
 			if (responseData.success) {
-				router.push('../');
+				router.push('/tasks');
+				router.refresh(); // force tasks page to re-fetch tasks
 			} else {
 				setError({
 					isError: true,

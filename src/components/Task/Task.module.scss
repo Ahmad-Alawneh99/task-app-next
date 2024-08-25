@@ -7,16 +7,29 @@
 	justify-content: center;
 	max-width: 400px;
 	width: 400px;
-	height: 240px;
+	height: 330px;
 	padding: 16px;
 
 	.taskTitle {
 		font-size: 24px;
 		font-weight: bold;
+		height: 60px;
 		margin: 0;
+		overflow-y: auto;
+		width: 100%;
+		text-align: center;
 	}
 
 	.text {
+		height: 90px;
+		margin: 8px 0;
+		max-height: 90px;
+		overflow-y: auto;
+		text-align: center;
+		width: 100%;
+	}
+
+	.dateText {
 		margin: 8px 0;
 		text-align: center;
 	}
@@ -46,6 +59,31 @@
 			background-color: lightgray;
 			color: gray;
 			pointer-events: none;
+		}
+	}
+
+	.pastDue {
+		color: red;
+	}
+
+	.selectTitle {
+		font-size: 12px;
+		font-weight: bold;
+		max-width: 180px;
+		width: 100%;
+		text-align: left;
+	}
+
+	.selectDropdown {
+		height: 30px;
+		margin-bottom: 16px;
+		max-width: 180px;
+		outline: none;
+		width: 100%;
+
+		&:focus-within {
+			outline: 1px solid black;
+			outline-offset: 1px;
 		}
 	}
 }

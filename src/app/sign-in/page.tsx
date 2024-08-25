@@ -6,7 +6,7 @@ export default function SignInPage() {
 	const cookiesData = cookies();
 
 	// if user is already logged in, redirect to dashboard
-	if (cookiesData.get('task_app_token')) {
+	if (cookiesData.get('task_app_token')?.value.trim()) {
 		redirect('../');
 	}
 
