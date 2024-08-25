@@ -2,7 +2,7 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import TasksView from '../../components/TasksView/TasksView';
 
-export default async function AddTaskPage() {
+export default async function TasksPage() {
 	const cookiesData = cookies();
 
 	// if user is not logged in, redirect to sign in
