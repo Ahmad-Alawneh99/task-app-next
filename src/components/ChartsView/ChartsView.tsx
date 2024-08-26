@@ -1,21 +1,14 @@
 'use client';
-import {
-	Chart,
-	ArcElement,
-	Legend,
-	Tooltip,
-} from 'chart.js';
-import { Pie } from 'react-chartjs-2';
+import { ChartBlock } from '../ChartBlock/ChartBlock';
 import chartViewStyles from './ChartsView.module.scss';
-
-Chart.register([ArcElement, Legend, Tooltip]);
 
 interface ChartsViewProps {
 	tasksSummary: {
-		pendingTasks: number,
-		inProgressTasks: number,
+		pendingTasks: number;
+		inProgressTasks: number;
 		completedTasks: number;
-	}
+		tasksPerDueDate: { [key: string]: number },
+	},
 }
 
 export function ChartsView({ tasksSummary }: ChartsViewProps) {
@@ -33,11 +26,35 @@ export function ChartsView({ tasksSummary }: ChartsViewProps) {
 		}],
 	};
 
+	const barChartData = {
+		labels: Object.keys(tasksSummary.tasksPerDueDate),
+		datasets: [{
+			label: 'Number of tasks',
+			data: Object.values(tasksSummary.tasksPerDueDate),
+			backgroundColor: [
+				'rgba(255, 99, 132, 0.2)',
+			],
+			borderColor: [
+				'rgb(255, 99, 132)',
+			],
+			borderWidth: 1,
+		}],
+		options: {
+			scales: {
+				y: {
+					ticks: {
+						beginAtZero: false,
+						callback: (value: number) => value % 1 === 0 ? value : undefined,
+					},
+				},
+			},
+		},
+	};
+
 	return (
-		<div>
-			<div className={chartViewStyles.chartContainer}>
-				<Pie data={pieChartData}/>
-			</div>
+		<div className={chartViewStyles.container}>
+			<ChartBlock type="pie" config={pieChartData} title="Tasks status"/>
+			<ChartBlock type="bar" config={barChartData} title="Number of Tasks per due date"/>
 		</div>
 	);
 }

@@ -19,8 +19,6 @@ export interface User {
 	name: string;
 }
 
-// @TODO: do a pass over all routes to use the enum instead
-
 export enum HttpStatus {
 	OK = 200,
 	CREATED = 201,

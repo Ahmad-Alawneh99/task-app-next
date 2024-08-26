@@ -1,15 +1,15 @@
 import { NextRequest } from 'next/server';
-import { TaskData } from '../../../shared/interfaces.d';
+import { HttpStatus, TaskData } from '../../../shared/interfaces.d';
 
 export async function POST(request: NextRequest) {
 	try {
 		const data: Partial<TaskData> = await request.json();
 
 		if (!data.title || !data.dueDate || !data.status) {
-			return Response.json({ success: false, code: 400, message: 'Title, status and due date are required' }, { status: 400 });
+			return Response.json({ success: false, code: HttpStatus.BAD_REQUEST, message: 'Title, status and due date are required' }, { status: HttpStatus.BAD_REQUEST });
 		}
 
-		const res = await fetch('http://localhost:3030/tasks', {
+		const res = await fetch(`${process.env.BACKEND_API}/tasks`, {
 			method: 'post',
 			body: JSON.stringify({
 				title: data.title,
@@ -25,16 +25,16 @@ export async function POST(request: NextRequest) {
 
 		const resAsJson = await res.json();
 
-		return Response.json(resAsJson, { status: resAsJson.code || 201 });
+		return Response.json(resAsJson, { status: resAsJson.code || HttpStatus.CREATED });
 	} catch (error: any) {
-		return Response.json({ success: false, code: 500, message: error.message || 'Unexpected error' }, { status: 500 });
+		return Response.json({ success: false, code: HttpStatus.INTERNAL_SERVER_ERROR, message: error.message || 'Unexpected error' }, { status: HttpStatus.INTERNAL_SERVER_ERROR });
 	}
 }
 
 export async function GET(request: NextRequest) {
 	try {
 		const taskId = request.nextUrl.searchParams.get('taskId') || '';
-		const res = await fetch(`http://localhost:3030/tasks/${taskId}`, {
+		const res = await fetch(`${process.env.BACKEND_API}/tasks/${taskId}`, {
 			headers: {
 				Cookie: request.headers.get('Cookie') || '',
 				'Content-Type': 'application/json',
@@ -43,10 +43,8 @@ export async function GET(request: NextRequest) {
 
 		const resAsJson = await res.json();
 
-		return Response.json(resAsJson, { status: 200 });
+		return Response.json(resAsJson, { status: HttpStatus.OK });
 	} catch (error: any) {
-		return Response.json({ success: false, code: 500, message: error.message || 'Unexpected error' }, { status: 500 });
+		return Response.json({ success: false, code: HttpStatus.INTERNAL_SERVER_ERROR, message: error.message || 'Unexpected error' }, { status: HttpStatus.INTERNAL_SERVER_ERROR });
 	}
 }
-
-// @TODO: Extract common logic into a separate function
