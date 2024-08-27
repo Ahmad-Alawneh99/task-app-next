@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { TaskData, TaskStatus } from '../../shared/interfaces.d';
 import taskStyles from './Task.module.scss';
 
@@ -9,6 +10,7 @@ interface TaskProps {
 
 const Task = ({ task, onTaskDeleted }: TaskProps) => {
 	const [status, setStatus] = useState(task.status);
+	const router = useRouter();
 
 	const deleteTask = useCallback(async () => {
 		try {
@@ -21,13 +23,14 @@ const Task = ({ task, onTaskDeleted }: TaskProps) => {
 
 			if (data.success) {
 				onTaskDeleted(task._id);
+				router.refresh();
 			} else {
 				alert(`Failed to delete task: ${data.message}`);
 			}
 		} catch (error: any) {
 			alert(`Failed to delete task: ${error.message}`);
 		}
-	}, [task._id, onTaskDeleted]);
+	}, [task._id, onTaskDeleted, router]);
 
 	const updateTaskStatus = useCallback(async (value: TaskStatus) => {
 		try {
@@ -43,11 +46,13 @@ const Task = ({ task, onTaskDeleted }: TaskProps) => {
 
 			if (!data.success) {
 				setStatus(status); // restore old value on failure
+			} else {
+				router.refresh();
 			}
 		} catch (error: any) {
 			setStatus(status); // restore old value failure
 		}
-	}, [task._id, status]);
+	}, [task._id, status, router]);
 
 	const todaysDate = new Date();
 	todaysDate.setHours(0, 0, 0);

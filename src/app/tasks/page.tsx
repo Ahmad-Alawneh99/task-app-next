@@ -13,13 +13,19 @@ export default async function TasksPage() {
 	const authTokenCookie = `${cookiesData.get('task_app_token')?.name}=${cookiesData.get('task_app_token')?.value}`;
 
 	const fetchUserData = async () => {
-		const res = await fetch('http://localhost:3000/api/users/profile', { headers: { Cookie: authTokenCookie } });
+		const res = await fetch(
+			'http://localhost:3000/api/users/profile',
+			{ headers: { Cookie: authTokenCookie } }
+		);
 
 		return await res.json();
 	};
 
 	const fetchTasksData = async () => {
-		const res = await fetch('http://localhost:3000/api/tasks', { headers: { Cookie: authTokenCookie } });
+		const res = await fetch(
+			'http://localhost:3000/api/tasks',
+			{ headers: { Cookie: authTokenCookie } }
+		);
 
 		return await res.json();
 	};

@@ -4,7 +4,8 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Task from '../Task/Task';
 import { TaskData, User } from '../../shared/interfaces.d';
-import tasksViewStyles from './tasksPage.module.scss';
+import { UserNavMenu } from '../UserNavMenu/UserNavMenu';
+import tasksViewStyles from './TasksView.module.scss';
 
 interface TasksViewProps {
 	initialTasks: TaskData[],
@@ -18,6 +19,7 @@ const TasksView = ({ initialTasks, user }: TasksViewProps) => {
 	const signOut = () => {
 		document.cookie = 'task_app_token=';
 		router.push('/sign-in');
+		router.refresh();
 	};
 
 	const onTaskDeleted = (taskId: string) => {
@@ -26,9 +28,7 @@ const TasksView = ({ initialTasks, user }: TasksViewProps) => {
 
 	return (
 		<div className={tasksViewStyles.tasksContainer}>
-			<div className={tasksViewStyles.userInfo}>
-				<p>Welcome back, {user.name}</p>
-			</div>
+			<UserNavMenu username={user.name} ctaCopy="View Dashboard" redirectPath="/"/>
 			<div className={tasksViewStyles.tasksNavbar}>
 				<p className={tasksViewStyles.tasksTitle}>Your tasks</p>
 				<div className={tasksViewStyles.controlButtons}>

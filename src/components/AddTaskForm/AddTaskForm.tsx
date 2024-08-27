@@ -49,7 +49,7 @@ export const AddTaskForm = () => {
 
 			if (responseData.success) {
 				router.push('/tasks');
-				router.refresh(); // force tasks page to re-fetch tasks
+				router.refresh(); // force pages to refetch data, in order to get the newly added task
 			} else {
 				setError({
 					isError: true,

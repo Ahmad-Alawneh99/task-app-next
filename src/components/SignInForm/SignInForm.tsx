@@ -39,7 +39,8 @@ export const SignInForm = () => {
 
 			if (responseData.success) {
 				document.cookie = `task_app_token=${responseData.token}`;
-				await router.push('../');
+				router.push('../');
+				router.refresh();
 
 			} else {
 				setError({
