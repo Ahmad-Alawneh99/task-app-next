@@ -1,9 +1,9 @@
-.tasksNavbar {
+.headerContainer {
 	display: flex;
-	justify-content: space-around;
+	justify-content: space-between;
 	align-items: center;
 
-	.tasksTitle {
+	.title {
 		font-size: 36px;
 		font-weight: bold;
 	}
@@ -58,21 +58,9 @@
 	}
 }
 
-.taskList {
-	align-items: center;
-	display: flex;
-	flex-wrap: wrap;
-	gap: 16px;
-	justify-content: center;
-}
-
-.noTasks {
-	text-align: center;
-}
-
 @media (width <= 400px) {
-	.tasksNavbar {
-		.tasksTitle {
+	.headerContainer {
+		.title {
 			font-size: 24px;
 		}
 	}

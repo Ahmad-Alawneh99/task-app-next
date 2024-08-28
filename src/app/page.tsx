@@ -2,6 +2,7 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { ChartsView } from '../components/ChartsView/ChartsView';
 import { UserNavMenu } from '../components/UserNavMenu/UserNavMenu';
+import { TaskList } from '../components/TaskList/TaskList';
 
 export default async function Dashboard() {
 	const cookiesData = cookies();
@@ -31,7 +32,7 @@ export default async function Dashboard() {
 	if (!dashboardDataAsJson.success || !userDataAsJson.success) {
 		return (
 			<div>
-				server issue, try again later: {dashboardDataAsJson.message}
+				server issue, try again later: {dashboardDataAsJson.message || userDataAsJson.message}
 			</div>
 		);
 	}
@@ -40,6 +41,9 @@ export default async function Dashboard() {
 		<div>
 			<UserNavMenu username={userDataAsJson.user.name} ctaCopy="View Tasks" redirectPath="/tasks"/>
 			<ChartsView tasksSummary={dashboardDataAsJson.tasksSummary}/>
+			<h1>Tasks due soon</h1>
+			<p>Up to three tasks that have the nearest expiration date and are not complete</p>
+			<TaskList noTasksMessage="No tasks due soon" initialTasks={dashboardDataAsJson.tasksSummary.nearestDueTasks}/>
 		</div>
 	);
 }

@@ -1,9 +1,11 @@
 'use client';
 import { ChartBlock } from '../ChartBlock/ChartBlock';
+import { ContentHeader } from '../ContentHeader/ContentHeader';
 import chartViewStyles from './ChartsView.module.scss';
 
 interface ChartsViewProps {
 	tasksSummary: {
+		totalTasks: number;
 		pendingTasks: number;
 		inProgressTasks: number;
 		completedTasks: number;
@@ -52,9 +54,17 @@ export function ChartsView({ tasksSummary }: ChartsViewProps) {
 	};
 
 	return (
-		<div className={chartViewStyles.container}>
-			<ChartBlock type="pie" config={pieChartData} title="Tasks status"/>
-			<ChartBlock type="bar" config={barChartData} title="Number of Tasks per due date"/>
+		<div>
+			<ContentHeader title="Statistics"/>
+			{
+				tasksSummary.totalTasks ?
+					<div className={chartViewStyles.container}>
+						<ChartBlock type="pie" config={pieChartData} title="Tasks status"/>
+						<ChartBlock type="bar" config={barChartData} title="Number of Tasks per due date"/>
+					</div>
+					: <p className={chartViewStyles.noTasks}>No statistics to display</p>
+			}
+
 		</div>
 	);
 }

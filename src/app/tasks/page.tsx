@@ -1,6 +1,8 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import TasksView from '../../components/TasksView/TasksView';
+import { UserNavMenu } from '../../components/UserNavMenu/UserNavMenu';
+import { ContentHeader } from '../../components/ContentHeader/ContentHeader';
+import { TaskList } from '../../components/TaskList/TaskList';
 
 export default async function TasksPage() {
 	const cookiesData = cookies();
@@ -41,6 +43,10 @@ export default async function TasksPage() {
 	}
 
 	return (
-		<TasksView initialTasks={tasksResponse.tasks} user={userResponse.user}/>
+		<div>
+			<UserNavMenu username={userResponse.user.name} ctaCopy="View Dashboard" redirectPath="/"/>
+			<ContentHeader title="Your Tasks"/>
+			<TaskList noTasksMessage="You haven't added any task, start by adding one" initialTasks={tasksResponse.tasks}/>
+		</div>
 	);
 }

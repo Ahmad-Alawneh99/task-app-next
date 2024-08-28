@@ -1,8 +1,10 @@
-.container {
+.taskList {
+	align-items: center;
 	display: flex;
 	flex-wrap: wrap;
+	gap: 16px;
 	justify-content: center;
-	gap: 24px;
+    margin-bottom: 48px;
 }
 
 .noTasks {
