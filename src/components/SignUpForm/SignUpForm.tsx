@@ -51,6 +51,7 @@ export const SignUpForm = () => {
 				});
 			}
 		} catch (error: any) {
+			console.log(error);
 			setError({
 				isError: true,
 				message: error.message,
